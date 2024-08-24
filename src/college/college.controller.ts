@@ -52,4 +52,12 @@ export class CollegeController {
   ) {
     return await this.clgService.getCourses(collegeId, branchId,type);
   }
+  @Get('getLinks/:collegeId/:courseId/:lpo')
+  async getLinks(
+    @Param('collegeId') collegeId: string,
+    @Param('courseId') courseId: string,
+    @Param('lpo') lpo : string
+  ) {
+    return await this.clgService.getCourses(collegeId, courseId, lpo);
+  }
 }

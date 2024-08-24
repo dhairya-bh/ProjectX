@@ -99,4 +99,13 @@ export class CollegeService {
             .select(['c.courseType as courseType','c.id as id','course.courseName as courseName'])
             .getRawMany()
     }
+
+    async getLinks(clgId:string , courseId:string , lpo : string){
+        return await this.linkRepo.createQueryBuilder('l') //
+            .leftJoin('l.clgId','clg') //                                                                             
+            .leftJoin('l.courseId','course') //
+            .where('clg.clgId = :id AND courseId = :id1 AND l.lpo = :lpo',{id:clgId,id1:courseId,lpo:lpo})
+            .select(['c.authId as authId','c.link as link'])
+            .getRawMany()
+    }
 }
