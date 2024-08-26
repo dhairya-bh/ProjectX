@@ -15,13 +15,13 @@ export class Link {
     id:string;
 
     @ManyToOne(()=>College,(clg)=>clg.clgId)
-    clgId:string;
+    clg:College;
 
     @ManyToOne(()=>Course,(course)=>course.courseId)
-    courseId:string;
+    course:Course;
 
     @ManyToOne(()=>Author,(auth)=>auth.authId)
-    authId:string;
+    author:Author;
 
     @Column({nullable:true})
     lpo : LPO;
