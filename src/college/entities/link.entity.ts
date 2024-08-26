@@ -28,5 +28,4 @@ export class Link {
 
     @Column({nullable:true})
     link : string;
-    
 }

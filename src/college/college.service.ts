@@ -100,7 +100,7 @@ export class CollegeService {
             .leftJoin('c.branch','branch')
             .leftJoin('c.course','course')
             .where('clg.clgId = :id AND branch.branchId = :id1 AND c.courseType = :type',{id:clgId,id1:branchId,type})
-            .select(['c.courseType as courseType','course.courseId as id','course.courseName as courseName'])
+            .select(['course.courseClgId as courseClgId','course.courseId as id','course.courseName as courseName'])
             .getRawMany()
     }
 
@@ -111,7 +111,8 @@ export class CollegeService {
             .leftJoin('l.course','course') 
             .leftJoin('l.author','author')
             .where('clg.clgId = :id AND course.courseId = :id1 AND l.lpo = :lpo',{id:clgId,id1:courseId,lpo}) //
-            .select(['author.authId as authId','l.link as link'])
+            .select(['author.authName as authName','author.authInfo as authInfo',
+                'author.authImg as authImg','author.authLinked as authLinkedIn','l.link as link'])
             .getRawMany()
     }
 
@@ -119,21 +120,21 @@ export class CollegeService {
         return await this.clgRepo
         .createQueryBuilder('clg')
         .where('clg.clgName = :clgName',{clgName})
-        .select(['clg.clgId as id','clg.clgName as clgName'])
+        .select(['clg.clgId as id'])
         .getRawMany()
     }
-    async getBranchIdFromName(branchName:string){
+    async getBranchIdFromName(clgId:string, branchName:string){
         return await this.branchRepo
         .createQueryBuilder('branch')
-        .where('branch.branchName = :branchName',{branchName})
+        .where('branch.branchName = :branchName AND branch.clg.clgId = :clgId',{branchName,clgId})
         .select(['branch.branchId as id','branch.branchName as branchName'])
         .getRawMany()
     }
 
-    async getCourseIdFromCourseClgId(courseClgId:string){
+    async getCourseIdFromCourseClgId(clgId:string, courseClgId:string){
         return await this.courseRepo
         .createQueryBuilder('course')
-        .where('course.courseClgId = :courseClgId',{courseClgId})
+        .where('course.courseClgId = :courseClgId AND course.clg.clgId = :clgId',{courseClgId,clgId})
         .select(['course.courseId as id','course.courseClgId as courseClgId'])
         .getRawMany()
     }

@@ -68,17 +68,21 @@ export class CollegeController {
   ) {
     return await this.clgService.getCollegeIdFromName(clgName);
   }
-  @Get('getBranchId/:branchName')
+  @Get('getBranchId/:clgName/:branchName')
   async getBranchIdFromName(
+    @Param('clgName') clgName: string,
     @Param('branchName') branchName: string
   ) {
-    return await this.clgService.getBranchIdFromName(branchName);
+    var clgId = await this.clgService.getCollegeIdFromName(clgName); 
+    return await this.clgService.getBranchIdFromName(clgId[0].id,branchName);
   }
-  @Get('getCourseId/:courseClgId')
+  @Get('getCourseId/:clgName/:courseClgId')
   async getCouseIdFromCourseClgId(
+    @Param('clgName') clgName: string,
     @Param('courseClgId') courseClgId: string
   ) {
-    return await this.clgService.getCourseIdFromCourseClgId(courseClgId);
+    var clgId = await this.clgService.getCollegeIdFromName(clgName);
+    return await this.clgService.getCourseIdFromCourseClgId(clgId[0].id,courseClgId);
   }
 
 }
