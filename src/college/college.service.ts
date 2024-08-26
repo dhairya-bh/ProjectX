@@ -100,7 +100,7 @@ export class CollegeService {
             .leftJoin('c.branch','branch')
             .leftJoin('c.course','course')
             .where('clg.clgId = :id AND branch.branchId = :id1 AND c.courseType = :type',{id:clgId,id1:branchId,type})
-            .select(['c.courseType as courseType','c.id as id','course.courseName as courseName'])
+            .select(['c.courseType as courseType','course.courseId as id','course.courseName as courseName'])
             .getRawMany()
     }
 
