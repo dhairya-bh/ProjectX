@@ -5,4 +5,5 @@ export class AddCourseDto {
     courseType : CType;
     branchId : string;
     clgId : string;
+    courseClgId : string;
 }

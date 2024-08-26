@@ -15,6 +15,9 @@ export class Course {
     @Column({ name: 'course_name' ,nullable: true})
     courseName:string;
 
+    @Column({ name: 'course_clg_id' ,nullable: false, unique: true})
+    courseClgId:string;
+
     @ManyToOne(()=> College,(college)=>college.clgId)
     clg: College;
 

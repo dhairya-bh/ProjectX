@@ -44,6 +44,7 @@ export class CollegeService {
         })
         const college = await this.clgRepo.findOneBy({clgId:data.clgId});
         newCourse.clg = college;
+        newCourse.courseClgId = data.courseClgId;
         await this.courseRepo.save(newCourse);
         const branch = await this.branchRepo.findOneBy({branchId:data.branchId});
         const ctype = await this.courseTRepo.create({
@@ -101,11 +102,12 @@ export class CollegeService {
     }
 
     async getLinks(clgId:string , courseId:string , lpo : string){
-        return await this.linkRepo.createQueryBuilder('l') //
-            .leftJoin('l.clgId','clg') //                                                                             
-            .leftJoin('l.courseId','course') //
+        return await this.linkRepo.createQueryBuilder('l')
+            .leftJoin('l.clgId','clgId')                                                                      
+            .leftJoin('l.courseId','courseId') 
+            .leftJoin('l.authId','authId')
             .where('clg.clgId = :id AND courseId = :id1 AND l.lpo = :lpo',{id:clgId,id1:courseId,lpo:lpo})
-            .select(['c.authId as authId','c.link as link'])
+            .select(['l.authId as authId','l.link as link'])
             .getRawMany()
     }
 }
