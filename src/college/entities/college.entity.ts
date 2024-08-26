@@ -12,7 +12,7 @@ export class College {
     @PrimaryGeneratedColumn('uuid',{name : 'clg_id'})
     clgId : string;
 
-    @Column({ name: 'clg_name' ,nullable: true})
+    @Column({ name: 'clg_name' ,nullable: true, unique:true})
     clgName:string;
 
     @OneToMany(() => Branch,(branch)=>branch.clg)

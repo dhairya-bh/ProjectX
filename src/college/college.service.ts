@@ -105,12 +105,36 @@ export class CollegeService {
     }
 
     async getLinks(clgId:string , courseId:string , lpo : string){
+        console.log(clgId)
         return await this.linkRepo.createQueryBuilder('l')
-            .leftJoin('l.clgId','clgId')                                                                      
-            .leftJoin('l.courseId','courseId') 
-            .leftJoin('l.authId','authId')
-            .where('clg.clgId = :id AND courseId = :id1 AND l.lpo = :lpo',{id:clgId,id1:courseId,lpo:lpo})
-            .select(['l.authId as authId','l.link as link'])
+            .leftJoin('l.clg','clg')                                                                      
+            .leftJoin('l.course','course') 
+            .leftJoin('l.author','author')
+            .where('clg.clgId = :id AND course.courseId = :id1 AND l.lpo = :lpo',{id:clgId,id1:courseId,lpo}) //
+            .select(['author.authId as authId','l.link as link'])
             .getRawMany()
+    }
+
+    async getCollegeIdFromName(clgName:string){
+        return await this.clgRepo
+        .createQueryBuilder('clg')
+        .where('clg.clgName = :clgName',{clgName})
+        .select(['clg.clgId as id','clg.clgName as clgName'])
+        .getRawMany()
+    }
+    async getBranchIdFromName(branchName:string){
+        return await this.branchRepo
+        .createQueryBuilder('branch')
+        .where('branch.branchName = :branchName',{branchName})
+        .select(['branch.branchId as id','branch.branchName as branchName'])
+        .getRawMany()
+    }
+
+    async getCourseIdFromCourseClgId(courseClgId:string){
+        return await this.courseRepo
+        .createQueryBuilder('course')
+        .where('course.courseClgId = :courseClgId',{courseClgId})
+        .select(['course.courseId as id','course.courseClgId as courseClgId'])
+        .getRawMany()
     }
 }

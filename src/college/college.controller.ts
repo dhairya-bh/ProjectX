@@ -58,6 +58,27 @@ export class CollegeController {
     @Param('courseId') courseId: string,
     @Param('lpo') lpo : string
   ) {
-    return await this.clgService.getCourses(collegeId, courseId, lpo);
+    console.log("idhar pahoncha")
+    return await this.clgService.getLinks(collegeId, courseId, lpo);
   }
+
+  @Get('getClgId/:clgName')
+  async getCollegeIdFromName(
+    @Param('clgName') clgName: string
+  ) {
+    return await this.clgService.getCollegeIdFromName(clgName);
+  }
+  @Get('getBranchId/:branchName')
+  async getBranchIdFromName(
+    @Param('branchName') branchName: string
+  ) {
+    return await this.clgService.getBranchIdFromName(branchName);
+  }
+  @Get('getCourseId/:courseClgId')
+  async getCouseIdFromCourseClgId(
+    @Param('courseClgId') courseClgId: string
+  ) {
+    return await this.clgService.getCourseIdFromCourseClgId(courseClgId);
+  }
+
 }
