@@ -67,13 +67,16 @@ export class CollegeService {
     }
 
     async addLink(data : AddLinkDto){
+        const college = await this.clgRepo.findOneBy({clgId:data.clgId});
+        const course = await this.courseRepo.findOneBy({courseId:data.courseId});
+        const author = await this.authRepo.findOneBy({authId:data.authId});
         const newLink = await this.linkRepo.create({
-            clgId:data.clgId,
-            courseId:data.courseId,
             link:data.link,
             lpo:data.lpo,
-            authId:data.authId,
         })
+        newLink.clg = college;
+        newLink.course = course;
+        newLink.author = author;
         return await this.linkRepo.save(newLink);
     }
 
